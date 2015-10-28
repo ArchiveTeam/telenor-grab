@@ -51,7 +51,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   local function check(urla)
     local url = string.match(urla, "^([^#]+)")
-    if (downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not string.match(url, "////") then
+    if (downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not (string.match(url, "////") or string.match(url, "/mailto:")) then
 --  io.stdout:write(url .. ".  \n")
 --  io.stdout:flush()
       if string.match(url, "&amp;") then
@@ -73,7 +73,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
     elseif string.match(newurl, "^/") then
       check(string.match(url, "^(https?://[^/]+)")..newurl)
     elseif string.match(newurl, "%.jpg$") or string.match(newurl, "%.gif$") then
-      check(string.match(url, "^(https?://[^/]+/)")..newurl)
+      check(string.match(url, "^(https?://.+/)")..newurl)
     end
   end
   
