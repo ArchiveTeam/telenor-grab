@@ -52,8 +52,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   local function check(urla)
     local url = string.match(urla, "^([^#]+)")
     if (downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not (string.match(url, "////") or string.match(url, "/mailto:")) then
---  io.stdout:write(url .. ".  \n")
---  io.stdout:flush()
       if string.match(url, "&amp;") then
         table.insert(urls, { url=string.gsub(url, "&amp;", "&") })
         addedtolist[url] = true
@@ -103,10 +101,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       end
     end
     if string.match(url, "^https?://home%.online%.no/~[^/]+.*") then
---  io.stdout:write("YESssssssss.  \n")
---  io.stdout:flush()
---  io.stdout:write("http://" .. string.match(url, "^https?://home%.online%.no/~([^/]+).*") .. ".home.online.no" .. string.match(url, "^https?://home%.online%.no/~[^/]+(.*)") .. "YESssssssss.  \n")
---  io.stdout:flush()
       check("http://" .. string.match(url, "^https?://home%.online%.no/~([^/]+).*") .. ".home.online.no" .. string.match(url, "^https?://home%.online%.no/~[^/]+(.*)"))
     end
     if string.match(url, "^https?://home%.frisurf%.no/~[^/]+.*") then
@@ -116,10 +110,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       check("http://home.frisurf.no/~" .. string.match(url, "^https?://([^%.]+)%.home%.frisurf%.no/.*") .. "/" .. string.match(url, "^https?://[^%.]+%.home%.frisurf%.no/(.*)"))
     end
     if string.match(url, "^https?://[^%.]+%.home%.online%.no/.*") then
---  io.stdout:write("YsdasfdasdafsdasES.  \n")
---  io.stdout:flush()
---  io.stdout:write("http://home.online.no/~" .. string.match(url, "^https?://([^%.]+)%.home%.online%.no/.*") .. "/" .. string.match(url, "^https?://[^%.]+%.home%.online%.no/(.*)") .. "YsdasfdasdafsdasES.  \n")
---  io.stdout:flush()
       check("http://home.online.no/~" .. string.match(url, "^https?://([^%.]+)%.home%.online%.no/.*") .. "/" .. string.match(url, "^https?://[^%.]+%.home%.online%.no/(.*)"))
     end
     if string.match(url, "^https?://.+/[^/]+/") then
@@ -147,10 +137,6 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
     end
   end
   if string.match(url["url"], "^https?://[^%.]+%.home%.online%.no/.*") then
---  io.stdout:write("YES.  \n")
---  io.stdout:flush()
---  io.stdout:write("http://home.online.no/~" .. string.match(url["url"], "^https?://([^%.]+)%.home%.online%.no/.*") .. "/" .. string.match(url["url"], "^https?://[^%.]+%.home%.online%.no/(.*)") .. ".  \n")
---  io.stdout:flush()
     if downloaded["http://home.online.no/~" .. string.match(url["url"], "^https?://([^%.]+)%.home%.online%.no/.*") .. "/" .. string.match(url["url"], "^https?://[^%.]+%.home%.online%.no/(.*)")] == true then
       return wget.actions.EXIT
     end
