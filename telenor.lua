@@ -33,7 +33,7 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
   end
   
   if downloaded[url] ~= true and addedtolist[url] ~= true then
-    if (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not string.match(url, "////") then
+    if (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*hos%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*hos%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not string.match(url, "////") then
       addedtolist[url] = true
       return true
     else
@@ -51,7 +51,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   local function check(urla)
     local url = string.match(urla, "^([^#]+)")
-    if (downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not (string.match(url, "////") or string.match(url, "/mailto:")) then
+    if (downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*hos%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*hos%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not (string.match(url, "////") or string.match(url, "/mailto:")) then
       if string.match(url, "&amp;") then
         table.insert(urls, { url=string.gsub(url, "&amp;", "&") })
         addedtolist[url] = true
@@ -75,7 +75,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
     end
   end
   
-  if (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not (string.match(url, "%.mp4$") or string.match(url, "%.mp3$") or string.match(url, "%.jpg$") or string.match(url, "%.gif$") or string.match(url, "%.avi$") or string.match(url, "%.flv$") or string.match(url, "%.pdf$") or string.match(url, "%.rm$") or string.match(url, "%.ra$") or string.match(url, "%.wmv$") or string.match(url, "%.jpeg$") or string.match(url, "%.swf$")) then
+  if (string.match(url, "^https?://[^/]*home%.online%.no") or string.match(url, "^https?://[^/]*hos%.online%.no") or string.match(url, "^https?://[^/]*home%.frisurf%.no") or string.match(url, "^https?://[^/]*hos%.frisurf%.no") or string.match(url, "^https?://[^/]*148%.122%.161%.133")) and not (string.match(url, "%.mp4$") or string.match(url, "%.mp3$") or string.match(url, "%.jpg$") or string.match(url, "%.gif$") or string.match(url, "%.avi$") or string.match(url, "%.flv$") or string.match(url, "%.pdf$") or string.match(url, "%.rm$") or string.match(url, "%.ra$") or string.match(url, "%.wmv$") or string.match(url, "%.jpeg$") or string.match(url, "%.swf$")) then
     html = read_file(file)
     check(string.match(url, "^(https?://.+/)"))
     check(string.match(url, "^(https?://.+)/"))
