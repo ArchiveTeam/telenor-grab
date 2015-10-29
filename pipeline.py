@@ -15,6 +15,11 @@ import subprocess
 import sys
 import time
 import string
+try:
+    import requests
+except ImportError:
+    print('Please install or update the requests module.')
+    sys.exit(1)
 
 import seesaw
 from seesaw.externalprocess import WgetDownload
@@ -57,7 +62,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20151029.05"
+VERSION = "20151029.06"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'telenor'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -195,6 +200,11 @@ class WgetArgs(object):
         item['item_value'] = item_value
         
         assert item_type in ('telenor')
+
+        # telenor has some unsynced loadbalancers, returning 404 when you're downloading from the wrong one.
+        response = requests.get('http://home.online.no/~{0}/'.format(item_value))
+        if response.url.endswith('.cfm') and response.status_code == 404:
+            raise Exception('Looks like you\'re connected to the wrong loadbalancer...')
 
         if item_type == 'telenor':
             wget_args.append('http://home.online.no/~{0}/'.format(item_value))

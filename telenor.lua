@@ -169,11 +169,11 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   
   if status_code >= 500 or
     (status_code >= 400 and status_code ~= 404 and status_code ~= 403 and status_code ~= 400 and status_code ~= 414) then
-    io.stdout:write("\nServer returned "..http_stat.statcode.." ("..err.."). Sleeping.\n")
-    io.stdout:flush()
     if err == "AUTHFAILED" then
       return wget.actions.EXIT
     end
+    io.stdout:write("Server returned "..http_stat.statcode.." ("..err.."). Sleeping.\n")
+    io.stdout:flush()
     os.execute("sleep 1")
     tries = tries + 1
     if tries >= 5 then
@@ -189,14 +189,11 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
       return wget.actions.CONTINUE
     end
   elseif status_code == 0 then
-    if string.match(url["url"], "https?://rss%.thingiverse%.com") then
+    if err == "AUTHFAILED" then
       return wget.actions.EXIT
     end
     io.stdout:write("\nServer returned "..http_stat.statcode.." ("..err.."). Sleeping.\n")
     io.stdout:flush()
-    if err == "AUTHFAILED" then
-      return wget.actions.EXIT
-    end
     os.execute("sleep 10")
     tries = tries + 1
     if tries >= 5 then
