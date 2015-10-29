@@ -57,7 +57,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20151029.02"
+VERSION = "20151029.03"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'telenor'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -199,6 +199,7 @@ class WgetArgs(object):
         if item_type == 'online':
             wget_args.append('http://home.online.no/~{0}/'.format(item_value))
             wget_args.append('http://{0}.home.online.no/'.format(item_value))
+            wget_args.append('http://{0}.hos.online.no/'.format(item_value))
         elif item_type == 'frisurf':
             wget_args.append('http://home.frisurf.no/~{0}/'.format(item_value))
             wget_args.append('http://{0}.home.frisurf.no/'.format(item_value))
