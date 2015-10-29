@@ -102,9 +102,11 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
     end
     if string.match(url, "^https?://home%.online%.no/~[^/]+.*") then
       check("http://" .. string.match(url, "^https?://home%.online%.no/~([^/]+).*") .. ".home.online.no" .. string.match(url, "^https?://home%.online%.no/~[^/]+(.*)"))
+      check("http://" .. string.match(url, "^https?://home%.online%.no/~([^/]+).*") .. ".hos.online.no" .. string.match(url, "^https?://home%.online%.no/~[^/]+(.*)"))
     end
     if string.match(url, "^https?://home%.frisurf%.no/~[^/]+.*") then
       check("http://" .. string.match(url, "^https?://home%.frisurf%.no/~([^/]+).*") .. ".home.frisurf.no" .. string.match(url, "^https?://home%.frisurf%.no/~[^/]+(.*)"))
+      check("http://" .. string.match(url, "^https?://home%.frisurf%.no/~([^/]+).*") .. ".hos.frisurf.no" .. string.match(url, "^https?://home%.frisurf%.no/~[^/]+(.*)"))
     end
     if string.match(url, "^https?://[^%.]+%.home%.frisurf%.no/.*") then
       check("http://home.frisurf.no/~" .. string.match(url, "^https?://([^%.]+)%.home%.frisurf%.no/.*") .. "/" .. string.match(url, "^https?://[^%.]+%.home%.frisurf%.no/(.*)"))
@@ -136,8 +138,18 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
       return wget.actions.EXIT
     end
   end
+  if string.match(url["url"], "^https?://[^%.]+%.hos%.frisurf%.no/.*") then
+    if downloaded["http://home.frisurf.no/~" .. string.match(url["url"], "^https?://([^%.]+)%.hos%.frisurf%.no/.*") .. "/" .. string.match(url["url"], "^https?://[^%.]+%.hos%.frisurf%.no/(.*)")] == true then
+      return wget.actions.EXIT
+    end
+  end
   if string.match(url["url"], "^https?://[^%.]+%.home%.online%.no/.*") then
     if downloaded["http://home.online.no/~" .. string.match(url["url"], "^https?://([^%.]+)%.home%.online%.no/.*") .. "/" .. string.match(url["url"], "^https?://[^%.]+%.home%.online%.no/(.*)")] == true then
+      return wget.actions.EXIT
+    end
+  end
+  if string.match(url["url"], "^https?://[^%.]+%.hos%.online%.no/.*") then
+    if downloaded["http://home.online.no/~" .. string.match(url["url"], "^https?://([^%.]+)%.hos%.online%.no/.*") .. "/" .. string.match(url["url"], "^https?://[^%.]+%.hos%.online%.no/(.*)")] == true then
       return wget.actions.EXIT
     end
   end
