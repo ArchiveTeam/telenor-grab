@@ -57,7 +57,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20151029.03"
+VERSION = "20151029.04"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'telenor'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -194,16 +194,14 @@ class WgetArgs(object):
         item['item_type'] = item_type
         item['item_value'] = item_value
         
-        assert item_type in ('online', 'frisurf', '148.122.161.133')
+        assert item_type in ('telenor')
 
-        if item_type == 'online':
+        if item_type == 'telenor':
             wget_args.append('http://home.online.no/~{0}/'.format(item_value))
             wget_args.append('http://{0}.home.online.no/'.format(item_value))
             wget_args.append('http://{0}.hos.online.no/'.format(item_value))
-        elif item_type == 'frisurf':
             wget_args.append('http://home.frisurf.no/~{0}/'.format(item_value))
             wget_args.append('http://{0}.home.frisurf.no/'.format(item_value))
-        elif item_type == '148.122.161.133':
             wget_args.append('http://148.122.161.133/~{0}/'.format(item_value))
         else:
             raise Exception('Unknown item')
