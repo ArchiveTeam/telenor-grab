@@ -201,10 +201,10 @@ class WgetArgs(object):
         
         assert item_type in ('telenor')
 
-        # telenor has some unsynced loadbalancers, returning 404 when you're downloading from the wrong one.
+        # telenor has some unsynced loadbalancers, returning 404 when you're downloading from the wrong node.
         response = requests.get('http://home.online.no/~{0}/'.format(item_value))
         if response.url.endswith('.cfm') and response.status_code == 404:
-            raise Exception('Looks like you\'re connected to the wrong loadbalancer...')
+            raise Exception('Looks like you\'re connected to the wrong node...')
 
         if item_type == 'telenor':
             wget_args.append('http://home.online.no/~{0}/'.format(item_value))
