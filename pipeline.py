@@ -20,6 +20,7 @@ try:
 except ImportError:
     print('Please install or update the requests module.')
     sys.exit(1)
+import re
 
 import seesaw
 from seesaw.externalprocess import WgetDownload
@@ -62,7 +63,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20151030.02"
+VERSION = "20151030.04"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'telenor'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -203,7 +204,11 @@ class WgetArgs(object):
 
         # telenor has some unsynced loadbalancers, returning 404 when you're downloading from the wrong node.
         response = requests.get('http://home.online.no/~{0}/'.format(item_value))
-        if response.url.endswith('.cfm') and response.status_code == 404:
+        if response.url.endswith('/') and response.status_code == 200 and re.search(r'URL=(https?://[^"]+\.cfm)"', response.text):
+            newresponse = requests.get(re.search(r'URL=(https?://[^"]+\.cfm)"', response.text).group(1))
+            if newresponse.url.endswith('.cfm') and newresponse.status_code == 404:
+                raise Exception('Looks like you\'re connected to the wrong node...')
+        elif response.url.endswith('.cfm') and response.status_code == 404:
             raise Exception('Looks like you\'re connected to the wrong node...')
 
         if item_type == 'telenor':
