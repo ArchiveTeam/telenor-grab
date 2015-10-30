@@ -66,12 +66,12 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   local function checknewurl(newurl)
     if string.match(newurl, "^https?://") then
       check(newurl)
-    elseif string.match(newurl, "^//") then
-      check("http:"..newurl)
-    elseif string.match(newurl, "^/") then
-      check(string.match(url, "^(https?://[^/]+)")..newurl)
-    elseif string.match(newurl, "%.jpg$") or string.match(newurl, "%.gif$") then
-      check(string.match(url, "^(https?://.+/)")..newurl)
+--    elseif string.match(newurl, "^//") then
+--      check("http:"..newurl)
+--    elseif string.match(newurl, "^/") then
+--      check(string.match(url, "^(https?://[^/]+)")..newurl)
+--    elseif string.match(newurl, "%.jpg$") or string.match(newurl, "%.gif$") then
+--      check(string.match(url, "^(https?://.+/)")..newurl)
     end
   end
   
@@ -90,16 +90,16 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
     for newurl in string.gmatch(html, ">([^<]+)") do
       checknewurl(newurl)
     end
-    for newurl in string.gmatch(html, "location='([^']+)'") do
-      if not (string.match(newurl, "^/") or string.match(newurl, "^https?://")) then
-        check(string.match(url, "^(https?://.+/)")..newurl)
-      end
-    end
-    for newurl in string.gmatch(html, 'href="([^"]+)"') do
-      if not (string.match(newurl, "^/") or string.match(newurl, "^https?://")) then
-        check(string.match(url, "^(https?://.+/)")..newurl)
-      end
-    end
+--    for newurl in string.gmatch(html, "location='([^']+)'") do
+--      if not (string.match(newurl, "^/") or string.match(newurl, "^https?://")) then
+--        check(string.match(url, "^(https?://.+/)")..newurl)
+--      end
+--    end
+--    for newurl in string.gmatch(html, 'href="([^"]+)"') do
+--      if not (string.match(newurl, "^/") or string.match(newurl, "^https?://")) then
+--        check(string.match(url, "^(https?://.+/)")..newurl)
+--      end
+--    end
     if string.match(url, "^https?://home%.online%.no/~[^/]+.*") then
       check("http://" .. string.match(url, "^https?://home%.online%.no/~([^/]+).*") .. ".home.online.no" .. string.match(url, "^https?://home%.online%.no/~[^/]+(.*)"))
       check("http://" .. string.match(url, "^https?://home%.online%.no/~([^/]+).*") .. ".hos.online.no" .. string.match(url, "^https?://home%.online%.no/~[^/]+(.*)"))
