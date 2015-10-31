@@ -181,7 +181,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
       io.stdout:flush()
       tries = 0
       if string.match(url["url"], "^https?://[^/]*home%.online%.no") or string.match(url["url"], "^https?://[^/]*home%.frisurf%.no") or string.match(url["url"], "^https?://[^/]*148%.122%.161%.133") then
-        return wget.actions.ABORT
+        return wget.actions.EXIT
       else
         return wget.actions.EXIT
       end
@@ -201,7 +201,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
       io.stdout:flush()
       tries = 0
       if string.match(url["url"], "^https?://[^/]*home%.online%.no") or string.match(url["url"], "^https?://[^/]*home%.frisurf%.no") or string.match(url["url"], "^https?://[^/]*148%.122%.161%.133") then
-        return wget.actions.ABORT
+        return wget.actions.EXIT
       else
         return wget.actions.EXIT
       end
